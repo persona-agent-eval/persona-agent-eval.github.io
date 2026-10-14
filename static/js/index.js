@@ -50,10 +50,10 @@ function renderExample(i) {
 }
 
 EXAMPLES.forEach((e, i) => {
-  const b = document.createElement('button');
-  b.textContent = e.title;
-  b.onclick = () => renderExample(i);
-  tabs.appendChild(b);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${i + 1}</td><td><b>${esc(e.title)}</b></td><td>${esc(e.taxonomy)}</td><td>${esc(e.bench)} · ${esc(e.domain)}</td><td>${esc(e.agent)}</td>`;
+  tr.onclick = () => { renderExample(i); view.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  tabs.appendChild(tr);
 });
 renderExample(0);
 

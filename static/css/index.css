@@ -73,6 +73,14 @@ a:hover { color: var(--rust); }
 /* taxonomy + traces */
 .tax-chips { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
 .tax-chip { background: #fff; border: 1px solid var(--line); color: var(--teal); font-weight: 600; padding: .45rem .9rem; border-radius: 6px; font-size: .9rem; }
+.ex-table-wrap { overflow-x: auto; margin: 1rem 0 1.2rem; background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.ex-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.ex-table th { text-align: left; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-soft); padding: .7rem .9rem; border-bottom: 1px solid var(--line); }
+.ex-table td { padding: .65rem .9rem; border-bottom: 1px solid var(--line); cursor: pointer; }
+.ex-table tbody tr:last-child td { border-bottom: none; }
+.ex-table tbody tr:hover { background: var(--alt); }
+.ex-table tbody tr.is-active { background: var(--teal-bg); box-shadow: inset 3px 0 0 var(--teal); }
+.ex-table td:first-child { color: var(--ink-soft); width: 2rem; }
 .ex-pills { display: flex; flex-wrap: wrap; gap: .45rem; justify-content: center; margin: 1rem 0 1.2rem; }
 .ex-pills button { font: inherit; font-size: .85rem; background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: .4rem .9rem; cursor: pointer; }
 .ex-pills button:hover { border-color: var(--teal); color: var(--teal); }
@@ -137,6 +145,7 @@ details.mono div { white-space: pre-wrap; background: #fffaf3; border: 1px dashe
   .tau-table { font-size: .82rem; }
   .ex-view { padding: 1rem; }
   .persona-card dl { grid-template-columns: 1fr; }
+  .ex-table th:nth-child(3), .ex-table td:nth-child(3), .ex-table th:nth-child(5), .ex-table td:nth-child(5) { display: none; }
   .publication-title { font-size: 2.3rem !important; }
 }
 @media (max-width: 480px) {

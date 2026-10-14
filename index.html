@@ -171,8 +171,13 @@
     </div>
 
     <h3 class="title is-4 mt-6">Example traces</h3>
-    <p class="small-note">Real rollouts from our runs, picked from a hand-verified set of failures. Pick an example to read the full conversation. User turns show the persona simulator's visible reply; open "inner monologue" to see its private reasoning.</p>
-    <div class="ex-pills" id="ex-tabs"></div>
+    <p class="small-note">Real rollouts from our runs, picked from a hand-verified set of failures. Click a row to read the full conversation. User turns show the persona simulator's visible reply; open "inner monologue" to see its private reasoning.</p>
+    <div class="ex-table-wrap">
+      <table class="ex-table">
+        <thead><tr><th>#</th><th>Failure</th><th>Type</th><th>Benchmark · domain</th><th>Agent</th></tr></thead>
+        <tbody id="ex-tabs"></tbody>
+      </table>
+    </div>
     <div id="ex-view" class="ex-view"></div>
   </div>
 </section>
