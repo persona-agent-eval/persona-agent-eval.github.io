@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stress-testing agent benchmarks with behaviorally grounded user personas built from real users' post histories.">
+  <meta name="keywords" content="agent evaluation, user simulation, personas, tau2-bench, STATE-Bench, LLM agents, user satisfaction">
+  <meta name="author" content="Jeshwanth Bheemanpally, Yash Malegaonkar, Kevin Tan, Yi Zhang">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="When Benchmarks Break: Stress-Testing Agent Benchmarks with Behaviorally Grounded User Personas">
+  <meta property="og:description" content="Vary only the simulated user and agent benchmark scores, rankings, and failure modes shift.">
+  <meta property="og:url" content="https://persona-agent-eval.github.io/">
+  <meta property="og:image" content="https://persona-agent-eval.github.io/static/img/method.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#16384f">
+
+  <title>When Benchmarks Break: Persona-Conditioned Agent Evaluation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧑‍💻</text></svg>">
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+      <p class="venue-tag">BayLearn 2026 · Poster</p>
+      <h1 class="title is-1 publication-title">When Benchmarks Break</h1>
+      <h2 class="subtitle is-4 publication-subtitle">Stress-Testing Agent Benchmarks with Behaviorally Grounded User Personas</h2>
+
+      <div class="is-size-5 publication-authors">
+        <span class="author-block"><a href="#team">Jeshwanth Bheemanpally</a><sup>1*</sup>,</span>
+        <span class="author-block"><a href="#team">Yash Malegaonkar</a><sup>1*</sup>,</span>
+        <span class="author-block">Kevin Tan<sup>2</sup>,</span>
+        <span class="author-block"><a href="https://sites.google.com/ucsc.edu/yizhang" target="_blank" rel="noopener">Yi Zhang</a><sup>1</sup></span>
+      </div>
+      <div class="is-size-6 publication-affils">
+        <span class="author-block"><sup>1</sup>University of California, Santa Cruz</span>
+        <span class="author-block"><sup>2</sup>Basis Independent Silicon Valley</span>
+        <span class="author-block eq-note"><sup>*</sup>Equal contribution</span>
+      </div>
+
+      <div class="publication-links">
+        <a class="button is-rounded is-dark" href="static/pdf/baylearn2026_poster.pdf" target="_blank" rel="noopener">
+          <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Poster</span></a>
+        <a class="button is-rounded is-dark" href="https://huggingface.co/datasets/persona-agent-eval/personas" target="_blank" rel="noopener">
+          <span class="icon">🤗</span><span>Personas</span></a>
+        <a class="button is-rounded is-dark" href="#examples">
+          <span class="icon"><i class="fas fa-comments"></i></span><span>Example Traces</span></a>
+        <a class="button is-rounded is-dark" href="mailto:jbheeman@ucsc.edu">
+          <span class="icon"><i class="fas fa-envelope"></i></span><span>Contact</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEASER ============ -->
+<section class="section teaser-section">
+  <div class="container is-max-desktop">
+    <div class="qa-box">
+      <p><span class="qa-q">Q</span> What does an agent benchmark hide when only the user changes?</p>
+      <p><span class="qa-a">A</span> We vary the user with personas built from real users' post histories, not handwritten profiles, and find that scores, model rankings, and failure modes all move.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">agent models</div></div>
+      <div class="stat"><div class="stat-num">2</div><div class="stat-lbl">benchmarks<br><small>τ²-bench · STATE-Bench</small></div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">domains</div></div>
+      <div class="stat"><div class="stat-num">200</div><div class="stat-lbl">personas per domain</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABSTRACT ============ -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Overview</h2>
+    <div class="content has-text-justified">
+      <p>Agent benchmarks report task success against a single, fixed user simulator. Real users differ in tone,
+        patience, tolerance for policy friction, and escalation behavior, so a model that tops a leaderboard
+        against one simulated user can behave inconsistently across user groups.</p>
+      <p>We run a <b>controlled comparison</b>: tasks, tools, initial state and reward stay fixed, and only the
+        simulated user changes. Users are instantiated from <b>personas grounded in real behavioral data</b>
+        (Reddit post histories and Amazon reviews) combined with value priors from the Schwartz Theory of Basic
+        Human Values, then refined with prompt optimization (GEPA). For every rollout we measure verifiable
+        <b>task success</b> and <b>cumulative user satisfaction</b>, estimated by a persona-conditioned critic.</p>
+      <p>Persona variation shifts task success and satisfaction, reorders model rankings, and surfaces failure
+        modes that a fixed-prompt simulator never elicits, both in the agent and in the evaluation harness itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ METHOD ============ -->
+<section class="section alt-bg">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+    <figure class="figure-wrap">
+      <img src="static/img/method.png" alt="Pipeline: persona generation and optimization, agentic simulation, trace evaluation" loading="lazy">
+    </figure>
+    <div class="columns method-cols">
+      <div class="column">
+        <h3 class="title is-5"><span class="step">1</span>Persona generation</h3>
+        <p>Value priors and behavioral data (Reddit, Amazon reviews) are turned into structured personas: communication style, interaction policy, and state-transition rules. GEPA optimizes the generation prompt for fidelity to the source user.</p>
+      </div>
+      <div class="column">
+        <h3 class="title is-5"><span class="step">2</span>Agentic simulation</h3>
+        <p>A persona-conditioned user simulator talks to the agent under evaluation inside the unchanged benchmark environment and tools. The simulator reasons in a private inner monologue before each reply.</p>
+      </div>
+      <div class="column">
+        <h3 class="title is-5"><span class="step">3</span>Trace evaluation</h3>
+        <p>Task success comes from the benchmark's own state check. Satisfaction is the sum of critic-rated, turn-level valence changes, each on a −4 to +4 scale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section class="section" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+    <p class="has-text-centered section-lede">User variation shifts model scores and rankings.</p>
+
+    <div class="columns is-variable is-6 results-cols">
+      <div class="column">
+        <h3 class="title is-5">Rankings depend on the user</h3>
+        <p class="small-note">Kendall's τ between model orderings under the default and the persona user. τ = +1 means unchanged ordering; τ = 0 means half the model pairs swap.</p>
+        <table class="tau-table">
+          <thead><tr><th></th><th></th><th>Task success</th><th>Cum. satisfaction</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="3" class="bench-lbl">STATE-Bench</td><td>Travel</td><td data-v="0.8">+0.80</td><td data-v="0.8">+0.80</td></tr>
+            <tr><td>Customer support</td><td data-v="0.2">+0.20</td><td data-v="0">+0.00</td></tr>
+            <tr><td>Shopping</td><td data-v="0.4">+0.40</td><td data-v="-0.4">−0.40</td></tr>
+            <tr><td rowspan="3" class="bench-lbl">τ²-bench</td><td>Telecom</td><td data-v="1">+1.00</td><td data-v="1">+1.00</td></tr>
+            <tr><td>Airline</td><td data-v="0.6">+0.60</td><td data-v="0.2">+0.20</td></tr>
+            <tr><td>Retail</td><td data-v="0.7">+0.70</td><td data-v="1">+1.00</td></tr>
+          </tbody>
+        </table>
+        <p class="small-note"><b>7 of 10 model pairs reverse</b> for shopping satisfaction (τ = −0.40).</p>
+      </div>
+      <div class="column">
+        <h3 class="title is-5">Success shift per model</h3>
+        <figure class="figure-wrap plain"><img src="static/img/success_shift.png" alt="Task success under the default vs persona user for five models, each on the domain where it changed most" loading="lazy"></figure>
+        <p class="small-note">Each model is shown on the domain where its success rate changed most. Bars are 95% bootstrap intervals. Changes go both ways: gpt-oss and glm-4.7 do better on airline with persona users, while qwen3 drops on retail.</p>
+      </div>
+    </div>
+
+    <div class="validation-box">
+      <div><div class="vb-head">Human validation</div><div class="vb-sub">5 blinded annotators</div></div>
+      <div><div class="vb-num">r = 0.77</div><div class="vb-sub">best critic vs. humans</div></div>
+      <div><div class="vb-num">κ<sub>w</sub> = 0.75</div><div class="vb-sub">inter-annotator: r = 0.81, κ = 0.79</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAXONOMY + EXAMPLES ============ -->
+<section class="section alt-bg" id="examples">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">From scores to diagnosable errors</h2>
+    <p class="has-text-centered section-lede">Persona users surface failures in five groups, some caused by the agent and some by the evaluation harness itself.</p>
+    <div class="tax-chips">
+      <span class="tax-chip">Policy / authorization</span>
+      <span class="tax-chip">Intent / constraints</span>
+      <span class="tax-chip">State / records</span>
+      <span class="tax-chip">Transactions</span>
+      <span class="tax-chip">Evaluation dynamics</span>
+    </div>
+
+    <h3 class="title is-4 mt-6">Example traces</h3>
+    <p class="small-note">Real rollouts from our runs, picked from a hand-verified set of failures. Pick an example to read the full conversation. User turns show the persona simulator's visible reply; open "inner monologue" to see its private reasoning.</p>
+    <div class="ex-pills" id="ex-tabs"></div>
+    <div id="ex-view" class="ex-view"></div>
+  </div>
+</section>
+
+<!-- ============ PERSONAS ============ -->
+<section class="section" id="personas">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Personas</h2>
+    <p class="has-text-centered section-lede">Each persona is a structured profile: how the user writes, how they react to friction, and when they give up.</p>
+    <div class="columns is-multiline" id="persona-grid"></div>
+    <div class="has-text-centered mt-4">
+      <a class="button is-rounded is-dark" href="https://huggingface.co/datasets/persona-agent-eval/personas" target="_blank" rel="noopener">
+        <span class="icon">🤗</span><span>Browse a sample of personas on Hugging Face</span></a>
+      <p class="small-note mt-2">Personas are shown anonymized. They are generated profiles, not the source users.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM ============ -->
+<section class="section alt-bg" id="team">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Team</h2>
+    <div class="team-grid">
+      <div class="person">
+        <div class="avatar">JB</div>
+        <div class="p-name">Jeshwanth Bheemanpally<sup>*</sup></div>
+        <div class="p-affil">UC Santa Cruz</div>
+        <div class="p-links">
+          <a href="mailto:jbheeman@ucsc.edu" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="person">
+        <div class="avatar">YM</div>
+        <div class="p-name">Yash Malegaonkar<sup>*</sup></div>
+        <div class="p-affil">UC Santa Cruz</div>
+      </div>
+      <div class="person">
+        <div class="avatar">KT</div>
+        <div class="p-name">Kevin Tan</div>
+        <div class="p-affil">Basis Independent Silicon Valley</div>
+      </div>
+      <div class="person">
+        <div class="avatar">YZ</div>
+        <div class="p-name">Prof. Yi Zhang</div>
+        <div class="p-affil">UC Santa Cruz</div>
+        <div class="p-links">
+          <a href="https://sites.google.com/ucsc.edu/yizhang" target="_blank" rel="noopener" aria-label="Homepage"><i class="fas fa-house"></i></a>
+        </div>
+      </div>
+    </div>
+    <p class="has-text-centered small-note mt-3"><sup>*</sup>Equal contribution</p>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section" id="contact">
+  <div class="container is-max-desktop has-text-centered">
+    <h2 class="title is-3">Questions or collaborations?</h2>
+    <p class="is-size-5">We'd love to hear from you. Email <a href="mailto:jbheeman@ucsc.edu">jbheeman@ucsc.edu</a>.</p>
+    <p class="takeaway"><b>Takeaway:</b> evaluate across users, report success <i>and</i> satisfaction, and audit both agent and harness failures.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>Page layout adapted from the <a href="https://github.com/nerfies/nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page template.</p>
+  </div>
+</footer>
+
+<script src="static/js/data.js"></script>
+<script src="static/js/index.js"></script>
+</body>
+</html>
