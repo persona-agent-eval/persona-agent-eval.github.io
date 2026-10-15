@@ -151,3 +151,13 @@ details.mono div { white-space: pre-wrap; background: #fffaf3; border: 1px dashe
 @media (max-width: 480px) {
   .button { white-space: normal; height: auto; text-align: center; }
 }
+
+/* Persona anatomy */
+.anat-pills { justify-content: center; margin-bottom: 1rem; }
+.anat-flow { display: grid; gap: .8rem; }
+.anat-step { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: .9rem 1.1rem; min-width: 0; }
+.anat-num { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--teal); margin-bottom: .4rem; }
+.anat-src { display: flex; flex-wrap: wrap; gap: .4rem 1rem; align-items: baseline; font-size: .9rem; }
+.anat-src span { color: var(--ink-soft); font-size: .85rem; }
+.anat-para { font-size: .92rem; line-height: 1.6; color: #2b3e4c; }
+.anat-yaml { font-family: 'JetBrains Mono', monospace; font-size: .74rem; line-height: 1.5; background: var(--alt); color: var(--ink); border-radius: 6px; padding: .8rem .9rem; white-space: pre-wrap; word-break: break-word; max-height: 26rem; overflow: auto; margin: 0; }

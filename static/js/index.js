@@ -85,3 +85,32 @@ PERSONAS.forEach(p => {
   </div>`;
   grid.appendChild(col);
 });
+
+// Persona anatomy
+const anatTabs = document.getElementById('anat-tabs');
+const anatView = document.getElementById('anat-view');
+function renderAnatomy(i) {
+  const p = PERSONA_ANATOMY[i];
+  [...anatTabs.children].forEach((b, j) => b.classList.toggle('is-active', j === i));
+  anatView.innerHTML = `<div class="anat-flow">
+    <div class="anat-step">
+      <div class="anat-num">1 · Source</div>
+      <div class="anat-src"><b>r/${esc(p.subreddit)}</b><span>${p.n_comments} comments</span><span>${esc(p.domain)} domain</span></div>
+    </div>
+    <div class="anat-step">
+      <div class="anat-num">2 · Behavioral paragraph</div>
+      <p class="anat-para">${esc(p.paragraph)}</p>
+    </div>
+    <div class="anat-step">
+      <div class="anat-num">3 · Simulator profile (YAML)</div>
+      <pre class="anat-yaml">${esc(p.yaml)}</pre>
+    </div>
+  </div>`;
+}
+PERSONA_ANATOMY.forEach((p, i) => {
+  const b = document.createElement('button');
+  b.textContent = p.name;
+  b.onclick = () => renderAnatomy(i);
+  anatTabs.appendChild(b);
+});
+renderAnatomy(0);
